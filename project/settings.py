@@ -147,6 +147,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEBUG = False
 ALLOWED_HOSTS = ['*']  # Позже замените на ваш домен
 CORS_ALLOWED_ORIGINS = [
-    "https://my-react-frontend-qqaw.vercel.app/",
+    "https://my-react-frontend-qqaw-grbioysth-maxs-projects-1b5ade7b.vercel.app/",
     "http://localhost:3000",  # Для локальной разработки
 ]
