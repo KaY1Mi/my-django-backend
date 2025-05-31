@@ -52,9 +52,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',  # Для регистрации разрешаем всем
     ]
 }
-MEDIA_URL = '/media/'
 import os
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -146,3 +146,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEBUG = False
 ALLOWED_HOSTS = ['*']  # Позже замените на ваш домен
+CORS_ALLOWED_ORIGINS = [
+    "https://my-react-frontend-qqaw.vercel.app/",
+    "http://localhost:3000",  # Для локальной разработки
+]

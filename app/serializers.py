@@ -36,13 +36,17 @@ User = get_user_model()
 
 # serializers.py
 class UserProfileSerializer(serializers.ModelSerializer):
-    avatar = serializers.ImageField(required=False)  # Добавлено поле аватара
+    avatar = serializers.SerializerMethodField()  # Используем SerializerMethodField
     
     class Meta:
         model = User
-        fields = ['id', 'username', 'email',  'date_joined', 'avatar']
+        fields = ['id', 'username', 'email', 'date_joined', 'avatar']
         read_only_fields = ['id', 'date_joined']
+    
     def get_avatar(self, obj):
         if obj.avatar:
-            return self.context['request'].build_absolute_uri(obj.avatar.url)
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.avatar.url)
+            return obj.avatar.url  # Fallback, если нет request в контексте
         return None

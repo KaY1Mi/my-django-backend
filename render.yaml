@@ -14,3 +14,7 @@ services:
         generateValue: true  # Render сам сгенерирует ключ
       - key: DEBUG
         value: "False"
+build:
+  commands:
+    - mkdir -p media/avatars
+    - python manage.py migrate
