@@ -1,0 +1,16 @@
+databases:
+  - name: your_db_name       # Если нужна PostgreSQL (опционально)
+    plan: free              # Бесплатный тариф
+
+services:
+  - type: web
+    name: your-django-app   # Название сервиса на Render
+    plan: free             # Бесплатный тариф
+    runtime: python        # Используем Python
+    buildCommand: "pip install -r requirements.txt"  # Команда сборки
+    startCommand: "gunicorn project.wsgi:application --workers 4"  # Запуск
+    envVars:               # Переменные среды (например, SECRET_KEY)
+      - key: SECRET_KEY
+        generateValue: true  # Render сам сгенерирует ключ
+      - key: DEBUG
+        value: "False"
