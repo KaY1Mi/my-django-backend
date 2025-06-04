@@ -76,10 +76,14 @@ class UserProfileAPIView(generics.RetrieveAPIView):
         return self.request.user
     
 # views.py
-class AvatarUploadView(APIView):
-   permission_classes = [IsAuthenticated]
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
-def patch(self, request):
+class AvatarUploadView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request):
         user = request.user
         avatar_file = request.FILES.get('avatar')
         if avatar_file:
