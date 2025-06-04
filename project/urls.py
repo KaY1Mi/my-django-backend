@@ -23,7 +23,7 @@ urlpatterns = [
     path('api/register/', RegistrationApiView.as_view(), name='register'),
     path('api/login/', AuthenticationApiView.as_view(), name='login'),
     path('api/user/profile/', UserProfileAPIView.as_view(), name='user-profile'),
-     path('upload-avatar/', AvatarUploadView.as_view(), name='upload_avatar'),
+    path('api/upload-avatar/', AvatarUploadView.as_view(), name='upload-avatar'),
      
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

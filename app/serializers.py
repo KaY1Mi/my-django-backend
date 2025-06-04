@@ -34,13 +34,10 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
-# serializers.py
 class UserProfileSerializer(serializers.ModelSerializer):
-    avatar = serializers.SerializerMethodField()  # Используем SerializerMethodField
-    
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'date_joined', 'avatar']
+        fields = ['id', 'username', 'email', 'date_joined', 'avatar_url']
         read_only_fields = ['id', 'date_joined']
     
     def get_avatar(self, obj):
