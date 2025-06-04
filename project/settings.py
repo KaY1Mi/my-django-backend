@@ -145,20 +145,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEBUG = False
 
-from supabase import create_client, Client
-from dotenv import load_dotenv
-load_dotenv()
-# Supabase Config
-SUPABASE_URL = os.getenv("SUPABASE_URL")
-SUPABASE_KEY = os.getenv("SUPABASE_KEY")
-SUPABASE_BUCKET = "user-avatars"  # Имя вашего бакета
-
-# Инициализация клиента Supabase
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-import os
-from dotenv import load_dotenv
-
-load_dotenv()  # Для локального тестирования
 
 # Безопасность
 DEBUG = os.getenv('DEBUG', 'False') == 'True'

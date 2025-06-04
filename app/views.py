@@ -76,67 +76,15 @@ class UserProfileAPIView(generics.RetrieveAPIView):
         return self.request.user
     
 # views.py
-from rest_framework.parsers import MultiPartParser
-import uuid
-from datetime import datetime
-
-from supabase import create_client, Client
-import os
-from dotenv import load_dotenv
-
-# Загружаем переменные окружения из .env файла
-load_dotenv()
-
-# Инициализируем Supabase клиент
-SUPABASE_URL = os.getenv('SUPABASE_URL')
-SUPABASE_KEY = os.getenv('SUPABASE_KEY')
-SUPABASE_BUCKET = 'user-avatars'
-
-# Проверяем наличие обязательных переменных
-if not SUPABASE_URL or not SUPABASE_KEY:
-    raise ValueError("Supabase URL and KEY must be set in environment variables")
-
-supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
-
 class AvatarUploadView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    parser_classes = [MultiPartParser]
 
     def patch(self, request):
         user = request.user
-        avatar_file = request.FILES.get('avatar')
+        if 'avatar' not in request.FILES:
+            return Response({'error': 'No avatar file provided'}, status=status.HTTP_400_BAD_REQUEST)
         
-        if not avatar_file:
-            return Response({'error': 'No avatar file provided'}, status=400)
-
-        try:
-            file_ext = avatar_file.name.split('.')[-1].lower()
-            filename = f"{uuid.uuid4()}.{file_ext}"
-            file_path = f"avatars/{filename}"
-
-            # Загружаем в Supabase
-            res = supabase.storage.from_(SUPABASE_BUCKET).upload(
-                file_path,
-                avatar_file.read(),
-                file_options={"content-type": avatar_file.content_type}
-            )
-
-            if res.get('error'):
-                return Response({'error': res['error']['message']}, status=500)
-
-            avatar_url = f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_BUCKET}/{file_path}"
-
-            # Убедись, что avatar_url есть в модели User
-            user.avatar_url = avatar_url
-            user.save()
-
-            return Response(
-                UserProfileSerializer(user, context={'request': request}).data,
-                status=200
-            )
-
-        except Exception as e:
-            import traceback
-            traceback.print_exc()
-            return Response({'error': str(e)}, status=500)
+        user.avatar = request.FILES['avatar']
+        user.save()
+        return Response(UserProfileSerializer(user).data, status=status.HTTP_200_OK)
