@@ -23,7 +23,7 @@ urlpatterns = [
     path('api/register/', RegistrationApiView.as_view(), name='register'),
     path('api/login/', AuthenticationApiView.as_view(), name='login'),
     path('api/user/profile/', UserProfileAPIView.as_view(), name='user-profile'),
-    path('api/upload-avatar/', ChangeAvatarView.as_view(), name='upload-avatar'),
+    path('api/change-avatar/', ChangeAvatarView.as_view(), name='change-avatar'),
      
 
 ]

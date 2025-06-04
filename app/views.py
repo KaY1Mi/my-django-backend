@@ -90,12 +90,9 @@ class ChangeAvatarView(APIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request):
-        avatar_url = request.data.get('avatar')
-        if not avatar_url:
-            return Response({'error': 'Avatar URL is required'}, status=status.HTTP_400_BAD_REQUEST)
-
-        user = request.user
-        user.avatar = avatar_url  # если поле avatar — CharField или URLField
-        user.save()
-
-        return Response({'avatar': user.avatar}, status=status.HTTP_200_OK)
+        avatar_url = request.data.get('avatar')  # Это строка с путём типа "/avatars/avatar2.png"
+        if avatar_url:
+            request.user.avatar = avatar_url
+            request.user.save()
+            return Response({'avatar': request.user.avatar})
+        return Response({'error': 'No avatar URL provided'}, status=400)

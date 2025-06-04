@@ -7,7 +7,7 @@ class User(AbstractUser):
     username = models.CharField(max_length=255)
     email = models.EmailField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True)  # изменено!
+    avatar = models.CharField(max_length=255, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
