@@ -69,7 +69,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'project.urls'
-CORS_ALLOW_ALL_ORIGINS = True 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -100,7 +100,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-CORS_ALLOW_CREDENTIALS = True
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -163,7 +163,7 @@ load_dotenv()  # Для локального тестирования
 # Безопасность
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = [
-    'https://my-django-backend-rrxo.onrender.com',
+    'my-django-backend-rrxo.onrender.com',
                   'localhost']
 CORS_ALLOWED_ORIGINS = [
     "https://my-react-frontend-alym.vercel.app",
