@@ -77,14 +77,13 @@ class UserProfileAPIView(generics.RetrieveAPIView):
     
 # views.py
 class AvatarUploadView(APIView):
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+   permission_classes = [IsAuthenticated]
 
-    def patch(self, request):
+def patch(self, request):
         user = request.user
-        if 'avatar' not in request.FILES:
-            return Response({'error': 'No avatar file provided'}, status=status.HTTP_400_BAD_REQUEST)
-        
-        user.avatar = request.FILES['avatar']
-        user.save()
-        return Response(UserProfileSerializer(user).data, status=status.HTTP_200_OK)
+        avatar_file = request.FILES.get('avatar')
+        if avatar_file:
+            user.avatar = avatar_file
+            user.save()
+            return Response({'avatar': user.avatar.url})
+        return Response({'error': 'No file uploaded'}, status=400)

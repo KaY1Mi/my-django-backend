@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'app',
     'rest_framework',
     'corsheaders',
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 REST_FRAMEWORK = {
@@ -177,3 +179,9 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dfxhs3vbu',
+    'API_KEY': '994617438528167',
+    'API_SECRET': 'op8r6kPzSKepiy90jo85lD20hx0',
+}
