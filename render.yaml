@@ -1,20 +1,17 @@
-databases:
-  - name: your_db_name       # Если нужна PostgreSQL (опционально)
-    plan: free              # Бесплатный тариф
-
 services:
   - type: web
-    name: your-django-app   # Название сервиса на Render
-    plan: free             # Бесплатный тариф
-    runtime: python        # Используем Python
-    buildCommand: "pip install -r requirements.txt"  # Команда сборки
-    startCommand: "gunicorn project.wsgi:application --workers 4"  # Запуск
-    envVars:               # Переменные среды (например, SECRET_KEY)
-      - key: SECRET_KEY
-        generateValue: true  # Render сам сгенерирует ключ
+    name: your-django-backend
+    runtime: python
+    buildCommand: pip install -r requirements.txt && python manage.py migrate
+    startCommand: gunicorn your_project.wsgi:application
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: your-db
+          property: connectionString
+      - key: SUPABASE_URL
+        value: https://dogesupyybzlvkbwyaak.supabase.co
+      - key: SUPABASE_KEY
+        value: eyJhbGci...W5U
       - key: DEBUG
         value: "False"
-build:
-  commands:
-    - mkdir -p media/avatars
-    - python manage.py migrate

@@ -146,10 +146,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEBUG = True
 ALLOWED_HOSTS = ['*']  # Позже замените на ваш домен
-# CORS_ALLOWED_ORIGINS = [
-#     "https://my-react-frontend-alym.vercel.app",
-#     "http://localhost:3000",  # Для локальной разработки
-# ]
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 from supabase import create_client, Client
@@ -162,3 +159,14 @@ SUPABASE_BUCKET = "uploads"  # Имя вашего бакета
 
 # Инициализация клиента Supabase
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Для локального тестирования
+
+# Безопасность
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
+ALLOWED_HOSTS = ['your-render-app.onrender.com', 'localhost']
+CORS_ALLOWED_ORIGINS = [
+    "https://my-react-frontend-alym.vercel.app/",
+]
