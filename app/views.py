@@ -81,14 +81,21 @@ class UserProfileAPIView(generics.RetrieveAPIView):
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-class AvatarUploadView(APIView):
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+
+class ChangeAvatarView(APIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request):
+        avatar_url = request.data.get('avatar')
+        if not avatar_url:
+            return Response({'error': 'Avatar URL is required'}, status=status.HTTP_400_BAD_REQUEST)
+
         user = request.user
-        avatar_file = request.FILES.get('avatar')
-        if avatar_file:
-            user.avatar = avatar_file
-            user.save()
-            return Response({'avatar': user.avatar.url})
-        return Response({'error': 'No file uploaded'}, status=400)
+        user.avatar = avatar_url  # если поле avatar — CharField или URLField
+        user.save()
+
+        return Response({'avatar': user.avatar}, status=status.HTTP_200_OK)
