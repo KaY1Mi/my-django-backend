@@ -108,36 +108,35 @@ class AvatarUploadView(APIView):
         avatar_file = request.FILES.get('avatar')
         
         if not avatar_file:
-            return Response({'error': 'No avatar file provided'}, 
-                          status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'No avatar file provided'}, status=400)
 
         try:
-            # Генерируем уникальное имя файла
-            file_ext = avatar_file.name.split('.')[-1]
+            file_ext = avatar_file.name.split('.')[-1].lower()
             filename = f"{uuid.uuid4()}.{file_ext}"
             file_path = f"avatars/{filename}"
-            
+
             # Загружаем в Supabase
             res = supabase.storage.from_(SUPABASE_BUCKET).upload(
                 file_path,
                 avatar_file.read(),
                 file_options={"content-type": avatar_file.content_type}
             )
-            
-            # Получаем публичный URL
+
+            if res.get('error'):
+                return Response({'error': res['error']['message']}, status=500)
+
             avatar_url = f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_BUCKET}/{file_path}"
-            
-            # Обновляем пользователя
+
+            # Убедись, что avatar_url есть в модели User
             user.avatar_url = avatar_url
             user.save()
-            
+
             return Response(
                 UserProfileSerializer(user, context={'request': request}).data,
-                status=status.HTTP_200_OK
+                status=200
             )
-            
+
         except Exception as e:
-            return Response(
-                {'error': str(e)},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
+            import traceback
+            traceback.print_exc()
+            return Response({'error': str(e)}, status=500)
