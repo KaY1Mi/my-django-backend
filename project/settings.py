@@ -168,5 +168,5 @@ load_dotenv()  # Для локального тестирования
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['your-render-app.onrender.com', 'localhost']
 CORS_ALLOWED_ORIGINS = [
-    "https://my-react-frontend-alym.vercel.app/",
+    "https://my-react-frontend-alym.vercel.app",
 ]
