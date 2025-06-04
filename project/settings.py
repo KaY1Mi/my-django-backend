@@ -145,9 +145,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DEBUG = True
-ALLOWED_HOSTS = ['*']  # Позже замените на ваш домен
-
-CORS_ALLOW_ALL_ORIGINS = True
 
 from supabase import create_client, Client
 from dotenv import load_dotenv
@@ -169,4 +166,27 @@ DEBUG = os.getenv('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['your-render-app.onrender.com', 'localhost']
 CORS_ALLOWED_ORIGINS = [
     "https://my-react-frontend-alym.vercel.app",
+    "http://localhost:3000",
+]
+
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
 ]
