@@ -66,7 +66,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
 from .serializers import UserProfileSerializer
-
 class UserProfileAPIView(generics.RetrieveAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -74,12 +73,14 @@ class UserProfileAPIView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+    def get_serializer_context(self):
+        return {'request': self.request}
     
 # views.py
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
 class AvatarUploadView(APIView):
     permission_classes = [IsAuthenticated]
 
