@@ -166,7 +166,7 @@ ALLOWED_HOSTS = [
     'my-django-backend-rrxo.onrender.com',
                   'localhost']
 CORS_ALLOWED_ORIGINS = [
-    "https://my-react-frontend-869n.vercel.app",
+    "https://my-react-frontend-sfva.vercel.app",
     "http://localhost:3000",
 ]
 
