@@ -42,8 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework.authtoken'
 ]
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
@@ -163,7 +162,9 @@ load_dotenv()  # Для локального тестирования
 
 # Безопасность
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-ALLOWED_HOSTS = ['your-render-app.onrender.com', 'localhost']
+ALLOWED_HOSTS = [
+    'https://my-django-backend-rrxo.onrender.com',
+                  'localhost']
 CORS_ALLOWED_ORIGINS = [
     "https://my-react-frontend-alym.vercel.app",
     "http://localhost:3000",
