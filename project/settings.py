@@ -191,10 +191,7 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': 'op8r6kPzSKepiy90jo85lD20hx0',
 }
 
-INSTALLED_APPS += [
-    'cloudinary',
-    'cloudinary_storage',
-]
+
 
 # Использовать Cloudinary как backend для медиа файлов
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
