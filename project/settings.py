@@ -149,7 +149,7 @@ DEBUG = True
 
 
 # Безопасность
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+
 ALLOWED_HOSTS = [
     'my-django-backend-rrxo.onrender.com',
                   'localhost']
