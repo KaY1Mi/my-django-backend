@@ -85,14 +85,20 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+ALLOWED_AVATARS = [
+    "/static/avatars/avatar1.png",
+    "/static/avatars/avatar2.png",
+    "/static/avatars/avatar3.png"
+]
 
 class ChangeAvatarView(APIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request):
-        avatar_url = request.data.get('avatar')  # Это строка с путём типа "/avatars/avatar2.png"
-        if avatar_url:
-            request.user.avatar = avatar_url
-            request.user.save()
-            return Response({'avatar': request.user.avatar})
-        return Response({'error': 'No avatar URL provided'}, status=400)
+        avatar_url = request.data.get('avatar')
+        if avatar_url not in ALLOWED_AVATARS:
+            return Response({'error': 'Invalid avatar choice'}, status=400)
+        
+        request.user.avatar = avatar_url
+        request.user.save()
+        return Response({'avatar': request.user.avatar})
