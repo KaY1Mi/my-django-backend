@@ -180,3 +180,24 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
 ]
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
+# Настройки Cloudinary — подставь свои значения из аккаунта Cloudinary
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'твой_cloud_name',
+    'API_KEY': 'твой_api_key',
+    'API_SECRET': 'твой_api_secret',
+}
+
+INSTALLED_APPS += [
+    'cloudinary',
+    'cloudinary_storage',
+]
+
+# Использовать Cloudinary как backend для медиа файлов
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+# Можно оставить MEDIA_URL для совместимости
+MEDIA_URL = 'https://res.cloudinary.com/твой_cloud_name/image/upload/'
