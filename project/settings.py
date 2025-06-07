@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework.authtoken',
-    'cloudinary',
     'cloudinary_storage',
+    'cloudinary',
 ]
 
 REST_FRAMEWORK = {
