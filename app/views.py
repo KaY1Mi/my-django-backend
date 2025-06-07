@@ -95,12 +95,21 @@ class ChangeAvatarView(APIView):
     permission_classes = [IsAuthenticated]
 
     def patch(self, request):
-        avatar_url = request.data.get('avatar')
-        print(f"[ChangeAvatarView] Received avatar_url: {avatar_url}")
-        if avatar_url not in ALLOWED_AVATARS:
-            return Response({'error': 'Invalid avatar choice'}, status=400)
-        
-        request.user.avatar = avatar_url
-        request.user.save()
-        print(f"[ChangeAvatarView] Avatar saved: {request.user.avatar}")
-        return Response({'avatar': request.user.avatar})
+        user = request.user
+
+        # ✅ если загружен файл — пользователь загрузил свой аватар
+        if 'avatar' in request.FILES:
+            user.avatar = request.FILES['avatar']
+
+        # ✅ если выбрана дефолтная картинка
+        elif 'avatar' in request.data:
+            avatar_url = request.data.get('avatar')
+            if avatar_url not in ALLOWED_AVATARS:
+                return Response({'error': 'Invalid avatar choice'}, status=400)
+            user.avatar = avatar_url
+
+        else:
+            return Response({'error': 'No avatar provided'}, status=400)
+
+        user.save()
+        return Response({'avatar': user.avatar.url}, status=200)
