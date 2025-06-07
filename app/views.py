@@ -97,19 +97,23 @@ class ChangeAvatarView(APIView):
     def patch(self, request):
         user = request.user
 
-        # ✅ если загружен файл — пользователь загрузил свой аватар
         if 'avatar' in request.FILES:
+            # Загруженный файл — сохраняем, сбрасываем дефолтный путь
             user.avatar = request.FILES['avatar']
+            user.default_avatar = ''
+            user.save()
+            avatar_url = user.avatar.url
+            return Response({'avatar': avatar_url}, status=200)
 
-        # ✅ если выбрана дефолтная картинка
         elif 'avatar' in request.data:
             avatar_url = request.data.get('avatar')
             if avatar_url not in ALLOWED_AVATARS:
                 return Response({'error': 'Invalid avatar choice'}, status=400)
-            user.avatar = avatar_url
+            # Сбрасываем загруженный файл, ставим дефолтный путь
+            user.avatar = None
+            user.default_avatar = avatar_url
+            user.save()
+            return Response({'avatar': avatar_url}, status=200)
 
         else:
             return Response({'error': 'No avatar provided'}, status=400)
-
-        user.save()
-        return Response({'avatar': user.avatar.url}, status=200)

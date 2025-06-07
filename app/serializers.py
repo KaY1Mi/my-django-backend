@@ -32,7 +32,9 @@ class UserSerializer(serializers.ModelSerializer):
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
+
 User = get_user_model()
+
 class UserProfileSerializer(serializers.ModelSerializer):
     avatar_url = serializers.SerializerMethodField()
 
@@ -42,9 +44,14 @@ class UserProfileSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'date_joined']
 
     def get_avatar_url(self, obj):
+        request = self.context.get('request')
         if obj.avatar:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.avatar)
-            return obj.avatar
-        return None
+            url = obj.avatar.url
+        elif obj.default_avatar:
+            url = obj.default_avatar
+        else:
+            return None
+
+        if request:
+            return request.build_absolute_uri(url)
+        return url
