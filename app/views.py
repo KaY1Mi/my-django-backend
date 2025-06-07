@@ -96,9 +96,11 @@ class ChangeAvatarView(APIView):
 
     def patch(self, request):
         avatar_url = request.data.get('avatar')
+        print(f"[ChangeAvatarView] Received avatar_url: {avatar_url}")
         if avatar_url not in ALLOWED_AVATARS:
             return Response({'error': 'Invalid avatar choice'}, status=400)
         
         request.user.avatar = avatar_url
         request.user.save()
+        print(f"[ChangeAvatarView] Avatar saved: {request.user.avatar}")
         return Response({'avatar': request.user.avatar})
