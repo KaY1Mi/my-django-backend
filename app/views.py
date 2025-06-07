@@ -86,9 +86,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
 ALLOWED_AVATARS = [
-    "/static/avatars/avatar1.png",
-    "/static/avatars/avatar2.png",
-    "/static/avatars/avatar3.png"
+    "/media/avatars/avatar1.png",
+    "/media/avatars/avatar2.png",
+    "/media/avatars/avatar3.png",
 ]
 
 class ChangeAvatarView(APIView):
