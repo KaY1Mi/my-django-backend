@@ -186,9 +186,9 @@ import cloudinary.api
 
 # Настройки Cloudinary — подставь свои значения из аккаунта Cloudinary
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': 'твой_cloud_name',
-    'API_KEY': 'твой_api_key',
-    'API_SECRET': 'твой_api_secret',
+    'CLOUD_NAME': 'dfxhs3vbu',
+    'API_KEY': '994617438528167',
+    'API_SECRET': 'op8r6kPzSKepiy90jo85lD20hx0',
 }
 
 INSTALLED_APPS += [
@@ -200,4 +200,4 @@ INSTALLED_APPS += [
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Можно оставить MEDIA_URL для совместимости
-MEDIA_URL = 'https://res.cloudinary.com/твой_cloud_name/image/upload/'
+MEDIA_URL = 'https://res.cloudinary.com/dfxhs3vbu/image/upload/'
