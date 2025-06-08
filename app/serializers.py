@@ -35,6 +35,28 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+class UserProfileSerializer(serializers.ModelSerializer):
+    avatar_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'date_joined', 'avatar_url']
+        read_only_fields = ['id', 'date_joined']
+
+    def get_avatar_url(self, obj):
+        request = self.context.get('request')
+        if obj.avatar:
+            url = obj.avatar.url
+        elif obj.default_avatar:
+            url = obj.default_avatar
+        else:
+            return None
+
+        if request:
+            return request.build_absolute_uri(url)
+        return url
+
+
 class UserProfileUpdateSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
 
