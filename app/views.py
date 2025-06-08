@@ -85,35 +85,18 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
-ALLOWED_AVATARS = [
-    "/media/avatars/avatar1.png",
-    "/media/avatars/avatar2.png",
-    "/media/avatars/avatar3.png",
-]
 
-class ChangeAvatarView(APIView):
+from .serializers import UserProfileUpdateSerializer
+
+class UserProfileUpdateAPIView(APIView):
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def patch(self, request):
         user = request.user
+        serializer = UserProfileUpdateSerializer(user, data=request.data, partial=True)
 
-        if 'avatar' in request.FILES:
-            # Загруженный файл — сохраняем, сбрасываем дефолтный путь
-            user.avatar = request.FILES['avatar']
-            user.default_avatar = ''
-            user.save()
-            avatar_url = user.avatar.url
-            return Response({'avatar': avatar_url}, status=200)
-
-        elif 'avatar' in request.data:
-            avatar_url = request.data.get('avatar')
-            if avatar_url not in ALLOWED_AVATARS:
-                return Response({'error': 'Invalid avatar choice'}, status=400)
-            # Сбрасываем загруженный файл, ставим дефолтный путь
-            user.avatar = None
-            user.default_avatar = avatar_url
-            user.save()
-            return Response({'avatar': avatar_url}, status=200)
-
-        else:
-            return Response({'error': 'No avatar provided'}, status=400)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Profile updated successfully'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
