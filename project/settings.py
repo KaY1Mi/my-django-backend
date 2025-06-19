@@ -155,7 +155,7 @@ ALLOWED_HOSTS = [
                   'localhost',
                    '127.0.0.1']
 CORS_ALLOWED_ORIGINS = [
-    "https://my-react-frontend-20o7.onrender.com",
+    "https://sakura-flow.onrender.com",
 
     "http://localhost:3000",
 ]
